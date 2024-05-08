@@ -24,11 +24,17 @@ public class GroupController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Group> createGroup(@RequestBody CreateGroupRequestDTO groupRequestDTO) throws Exception {
+    public ResponseEntity<Group> createGroup(@RequestBody CreateGroupRequestDTO groupRequestDTO) {
 
         ResponseEntity<Group> groupResponseEntity;
-        Group group = groupService.createGroup(groupRequestDTO.getUserId(),groupRequestDTO.getName());
-        groupResponseEntity = ResponseEntity.ok(group);
+        try {
+
+            Group group = groupService.createGroup(groupRequestDTO.getUserId(),groupRequestDTO.getName());
+            groupResponseEntity = ResponseEntity.ok(group);
+        }
+        catch(Exception e) {
+            groupResponseEntity = ResponseEntity.badRequest().build();
+        }
         return groupResponseEntity;
     }
 
