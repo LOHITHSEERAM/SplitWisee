@@ -26,24 +26,14 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequestDTO createUserRequestDTO) {
 
-        try {
             User user = userService.createUser(createUserRequestDTO.getUserName(), createUserRequestDTO.getEmail());
             return ResponseEntity.ok(user);
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
     }
 
     @PostMapping("/adduser")
     public ResponseEntity<String> addUser(@RequestBody AddUserRequestDTO addUserRequestDTO) {
 
-        try{
             userService.addUserInGroup(addUserRequestDTO.getUserId(),addUserRequestDTO.getGroupId());
             return ResponseEntity.ok("User added successfully");
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
     }
 }

@@ -26,43 +26,26 @@ public class GroupController {
     @PostMapping("/create")
     public ResponseEntity<Group> createGroup(@RequestBody CreateGroupRequestDTO groupRequestDTO) {
 
-        ResponseEntity<Group> groupResponseEntity;
-        try {
-
             Group group = groupService.createGroup(groupRequestDTO.getUserId(),groupRequestDTO.getName());
-            groupResponseEntity = ResponseEntity.ok(group);
-        }
-        catch(Exception e) {
-            groupResponseEntity = ResponseEntity.badRequest().build();
-        }
-        return groupResponseEntity;
+            return ResponseEntity.ok(group);
     }
 
     @GetMapping("/settleup")
     public ResponseEntity<Expense> settleUpGroup(@RequestParam int groupId) {
 
-        try {
             Expense expense = groupService.settleExpenses(groupId);
             return ResponseEntity.ok(expense);
-        }
-        catch(Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
     }
 
 
     @PostMapping("/createexpense")
-    public ResponseEntity createExpense(@RequestBody CreateExpenseRequestDTO createExpenseRequestDTO) {
-        try {
+    public ResponseEntity<Expense> createExpense(@RequestBody CreateExpenseRequestDTO createExpenseRequestDTO) {
+
            Expense expense =  groupService.createExpense(createExpenseRequestDTO.getUserId(),
                     createExpenseRequestDTO.getGroupID(),
                     createExpenseRequestDTO.getAmount(),
                     createExpenseRequestDTO.getDescription(),
                     createExpenseRequestDTO.getExpenses());
             return ResponseEntity.ok(expense);
-        }
-        catch(Exception e) {
-            return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
-        }
     }
 }
